@@ -1,9 +1,9 @@
-from flask import Flask
-app = Flask(__name__)
+from namegen.app import *
 
 
 @app.route('/')
 def hello():
+    print(os.environ['APP_SETTINGS'])
     return "Hello World!"
 
 
