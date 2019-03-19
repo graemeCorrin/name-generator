@@ -7,11 +7,9 @@ class SurName(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(String())
-    lan = db.Column(String())
 
-    def __init__(self, name, lan):
+    def __init__(self, name):
         self.name = name
-        self.lan = lan
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
