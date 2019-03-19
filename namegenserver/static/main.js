@@ -11,11 +11,10 @@
 
       $log.log("test");
 
-      // get the URL from the input
-      var userInput = $scope.url;
+      var seed = $scope.seed;
 
       // fire the API request
-      $http.post('/name', {}).
+      $http.post('/name', {'seed': seed}).
         success(function(results) {
           $log.log(results);
           if ($scope.names) {

@@ -17,6 +17,9 @@
           <h1>Name Generator</h1>
           <br>
           <form role="form" ng-submit="getName()">
+            <div class="form-group">
+              <input type="text" name="url" class="form-control" id="seed-box" placeholder="(Optional) enter a seed..." style="max-width: 300px;" ng-model="seed">
+            </div>
             <div class="col-sm-6">
               <button type="submit" class="btn btn-primary btn-block">Generate</button>
             </div>
