@@ -8,5 +8,5 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from namegen.model.givenname import GivenName
-from namegen.model.surname import SurName
+from namegenserver.model.givenname import GivenName
+from namegenserver.model.surname import SurName

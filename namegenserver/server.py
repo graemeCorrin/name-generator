@@ -1,6 +1,7 @@
 from flask import render_template, jsonify
-from namegen.app import *
+from namegenserver.app import *
 import datetime
+from namegenserver.generator import namegenerator
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -11,8 +12,8 @@ def index():
 
 @app.route("/name", methods=['POST'])
 def get_name():
-
-    return jsonify({str(datetime.datetime.now()): 'bob'})
+    name = namegenerator.generatre_name()
+    return jsonify({str(datetime.datetime.now()): name})
 
 
 if __name__ == '__main__':

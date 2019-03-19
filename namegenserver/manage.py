@@ -2,8 +2,8 @@ import os
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from namegen.app import app, db
-from namegen import server
+from namegenserver.app import app, db
+from namegenserver import server
 
 
 app.config.from_object(os.environ['APP_SETTINGS'])

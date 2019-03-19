@@ -1,4 +1,4 @@
-from namegen.app import db
+from namegenserver.app import db
 from sqlalchemy import BOOLEAN, String
 
 
