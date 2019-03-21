@@ -50,6 +50,7 @@ def __eval_terminal(terminal: str) -> str:
         'location_phrase': __get_location_phrase,
         'adjective': __get_adjective,
         'adverb': __get_adverb,
+        'noun': __get_noun,
         'object_verb': __get_object_verb,
         'phrase_verb': __get_phrase_verb,
         'preposition': __get_preposition
@@ -97,6 +98,9 @@ def __get_adjective():
 
 def __get_adverb():
     return random.choice(['very', 'really', 'definitely', 'extremely', 'certainly'])
+
+def __get_noun():
+    return random.choice(['soup', 'hot dogs', 'Christmas tree', 'ball', 'box'])
 
 def __get_object_verb():
     return random.choice(['kills', 'murders', 'licks', 'eats', 'slaps', 'sniffs', 'analyzes', 'avoids'])
