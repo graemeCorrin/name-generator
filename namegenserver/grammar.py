@@ -29,9 +29,21 @@ class ContextFreeGrammar:
         self.__rules[key] = options
 
     def evaluate(self) -> list:
+        """
+        Evaluate grammar starting at the Start rule
+
+        :return: Result of evaluation
+        """
+
         return self.__eval_recur(self.__start)
 
     def __eval_recur(self, key: str) -> list:
+        """
+        Evaluate a rule of the grammar using recursion
+
+        :param key: key of the current rule to evaluate
+        :return: result of evaluating current rule
+        """
 
         options = self.__rules[key]
         option = random.choice(options)

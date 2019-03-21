@@ -7,12 +7,19 @@ from namegenserver.generator import namegenerator
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    """
+    Return main page of the app
+    """
+
     print(os.environ['APP_SETTINGS'])
     return render_template('index.html')
 
 
 @app.route("/name", methods=['POST'])
 def get_name():
+    """
+    Get random name
+    """
 
     data: dict = json.loads(request.data.decode())
 

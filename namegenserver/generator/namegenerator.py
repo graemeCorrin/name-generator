@@ -3,7 +3,13 @@ import string
 from namegenserver.grammar import name_grammar
 
 
-def generate_name(seed: str = ''):
+def generate_name(seed: str = '') -> str:
+    """
+    Generate a random name from a seed. If no seed is provided, the default seed for the random module is used
+
+    :param seed: seed for random function
+    :return: name
+    """
 
     if seed:
         random.seed(seed)
@@ -19,7 +25,15 @@ def generate_name(seed: str = ''):
     return ' '.join(name)
 
 
-def __eval_terminal(terminal):
+def __eval_terminal(terminal: str) -> str:
+    """
+    Get value for given terminal in the Grammar. If terminal does not correspond to a database table, literal value
+    of terminal is returned.
+
+    :param terminal: terminal to evaulate
+    :return: value of terminal
+    """
+
     options = {
         'pronoun': __get_pronoun,
         'simple_title': __get_simple_title,
