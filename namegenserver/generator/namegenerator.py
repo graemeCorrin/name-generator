@@ -1,6 +1,9 @@
 import random
 import string
+from  sqlalchemy.sql.expression import func
 from namegenserver.grammar import name_grammar
+from namegenserver.model.givenname import GivenName
+from namegenserver.model.surname import SurName
 
 
 def generate_name(seed: str = '') -> str:
@@ -79,10 +82,12 @@ def __get_initial():
     return random.choice(string.ascii_uppercase) + '.'
 
 def __get_given_name():
-    return random.choice(['Bob', 'Sally', 'Gregory', 'Bertha', 'Fred', 'Peter', 'Rebecca', 'Alex', 'Jordan', 'Mary', 'Harry'])
+    given_name = GivenName.query.order_by(func.random()).first()
+    return given_name.name
 
 def __get_surname():
-    return random.choice(['Smith', 'Johnson', 'Williams', 'Brown', 'Jones'])
+    surname = SurName.query.order_by(func.random()).first()
+    return surname.name
 
 def __get_location_phrase():
     return random.choice(['the Pit', 'the Void', 'the airport', 'Walmart', 'under the table'])
