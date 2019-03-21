@@ -1,55 +1,22 @@
 import random
 import string
-from namegenserver.grammar import ContextFreeGrammar
-
-grammar = None
+from namegenserver.grammar import name_grammar
 
 
 def generate_name(seed: str = ''):
-
-    if not grammar:
-        __create_grammar()
 
     if seed:
         random.seed(seed)
     else:
         random.seed()
 
-    name_grammar = grammar.evaluate()
+    result = name_grammar.evaluate()
     name = []
 
-    for terminal in name_grammar:
+    for terminal in result:
         name.append(__eval_terminal(terminal))
 
     return ' '.join(name)
-
-
-def __create_grammar():
-    global grammar
-    grammar = ContextFreeGrammar()
-
-    grammar.add_rule('start', (('thing', 'modifier'),))
-
-    grammar.add_rule('thing', (('pronoun',), ('proper_noun',)))
-    grammar.add_rule('proper_noun', (('full_name',), ('simple_title', 'full_name'), ('standalone_title', 'full_name',), ('standalone_title',)))
-    grammar.add_rule('standalone_title', (('normal_title',), ('professional_title',), ('ruler_title',)))
-    grammar.add_rule('full_name', (('given',), ('sur',), ('nickname',), ('given', 'nickname'), ('given', 'sur'), ('given', 'nickname', 'sur'), ('nickname', 'sur')))
-    grammar.add_rule('given', (('initial',), ('given_name',)))
-    grammar.add_rule('sur', (('initial',), ('surname',)))
-
-    grammar.add_rule('modifier', (('article_modifier',), ('of_modifier',), ('who_modifier',), ('from_modifier',)))
-    grammar.add_rule('article_modifier', (('the', 'adjective_phrase'), ('article', 'noun_phrase')))
-    grammar.add_rule('of_modifier', (('of', 'location_phrase'), ('of', 'noun_phrase'), ('of', 'article', 'noun_phrase')))
-    grammar.add_rule('who_modifier', (('verb_phrase',),))
-    grammar.add_rule('from_modifier', (('from', 'location_phrase'),))
-
-    grammar.add_rule('article', (('a',), ('the',)))
-    grammar.add_rule('adjective_phrase', (('adjective',), ('adverb', 'adjective_phrase')))
-    grammar.add_rule('noun_phrase', (('noun',), ('adjective_phrase', 'noun')))
-    grammar.add_rule('verb_phrase', (('adverb',), ('adverb', 'verb_phrase'),))
-    grammar.add_rule('verb', (('object_verb_phrase',), ('phrase_verb_phrase',)))
-    grammar.add_rule('object_verb_phrase', (('object_verb',), ('object_verb', 'noun_phrase')))
-    grammar.add_rule('phrase_verb_phrase', (('phrase_verb',), ('phrase_verb', 'preposition', 'noun_phrase')))
 
 
 def __eval_terminal(terminal):
