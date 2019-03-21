@@ -35,12 +35,13 @@ manage.py runserver
 ##ToDo
 
  - [x] Build basic server functionality
- - [x] Add seed option to UI
- - [ ] Seed database through Flask-Migrate / alembic ?
- - [ ] Add possible name constructions
- - [ ] Populate all seed tables
+ - [x] Add random seed option to UI
+ - [ ] Populate database through Flask-Migrate / alembic ?
+ - [x] Create Context Free Grammar to build possible name structures
+ - [ ] Pull name components from database
+ - [ ] Populate all read-only database tables
  - [ ] Add fantasy name generating logic
- - [ ] Populate possible name syllables
  - [ ] Add location name generating logic
+ - [ ] Populate name and location syllable tables
  - [ ] Add redis task queue
  - [ ] Add more options to front-end
