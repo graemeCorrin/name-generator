@@ -31,8 +31,7 @@ Run
 manage.py runserver
 ```
 
-
-##ToDo
+## ToDo
 
  - [x] Build basic server functionality
  - [x] Add random seed option to UI
