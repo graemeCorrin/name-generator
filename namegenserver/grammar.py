@@ -70,7 +70,7 @@ class ContextFreeGrammar:
 
 name_grammar = ContextFreeGrammar()
 
-name_grammar.add_rule('start', (('proper_noun', ',', 'modifier'), ('pronoun', ',', 'who_modifier')), (.9, .1))
+name_grammar.add_rule('start', (('proper_noun', ',', 'modifier'), ('pronoun', ',', 'who_modifier')), (.99, .01))
 
 name_grammar.add_rule('proper_noun', (('full_name',), ('simple_title', 'full_name'), ('standalone_title', 'full_name',), ('standalone_title',)))
 name_grammar.add_rule('standalone_title', (('normal_title',), ('professional_title',), ('ruler_title',)))
@@ -85,9 +85,9 @@ name_grammar.add_rule('who_modifier', (('who', 'verb_phrase'),))
 name_grammar.add_rule('from_modifier', (('from', 'location_phrase'),))
 
 name_grammar.add_rule('article', (('a',), ('the',)))
-name_grammar.add_rule('adjective_phrase', (('adjective',), ('adverb', 'adjective_phrase')))
+name_grammar.add_rule('adjective_phrase', (('adjective',), ('adverb', 'adjective_phrase')), (.8, .2))
 name_grammar.add_rule('noun_phrase', (('article', 'noun'), ('noun',), ('article', 'adjective_phrase', 'noun')))
-name_grammar.add_rule('verb_phrase', (('verb',), ('adverb', 'verb_phrase'),))
+name_grammar.add_rule('verb_phrase', (('verb',), ('adverb', 'verb_phrase')), (.8, .2))
 name_grammar.add_rule('verb', (('object_verb_phrase',), ('phrase_verb_phrase',)))
 name_grammar.add_rule('object_verb_phrase', (('object_verb',), ('object_verb', 'noun_phrase')))
 name_grammar.add_rule('phrase_verb_phrase', (('phrase_verb',), ('phrase_verb', 'preposition', 'noun_phrase')))
