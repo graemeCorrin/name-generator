@@ -3,37 +3,12 @@ import string
 from sqlalchemy.sql.expression import func
 from namegenserver.model.givenname import GivenName
 from namegenserver.model.surname import SurName
-from namegenserver.util.grammar import ContextFreeGrammar
+from namegenserver.generator.generator import Generator
 
 
-class FullNameGenerator:
+class FullNameGenerator(Generator):
 
-    def __init__(self, grammar: ContextFreeGrammar):
-        self.__grammar = grammar
-
-    def generate_name(self, seed: str = '') -> str:
-        """
-        Generate a random name from a seed. If no seed is provided, the default seed for the random module is used
-
-        :param seed: seed for random function
-        :return: name
-        """
-
-        if seed:
-            random.seed(seed)
-        else:
-            random.seed()
-
-        result = self.__grammar.evaluate()
-        name = []
-
-        for terminal in result:
-            name.append(self.__eval_terminal(terminal))
-
-        return ' '.join(name)
-
-
-    def __eval_terminal(self, terminal: str) -> str:
+    def _eval_terminal(self, terminal: str) -> str:
         """
         Get value for given terminal in the Grammar. If terminal does not correspond to a database table, literal value
         of terminal is returned.

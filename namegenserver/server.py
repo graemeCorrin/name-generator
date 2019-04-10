@@ -23,7 +23,7 @@ def get_name():
 
     data: dict = json.loads(request.data.decode())
     seed = data.get('seed', '')
-    name = full_name_generator.generate_name(seed)
+    name = full_name_generator.generate(seed)
     return jsonify({str(datetime.datetime.now()): name})
 
 

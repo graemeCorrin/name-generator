@@ -29,3 +29,12 @@ __name_grammar.add_rule('object_verb_phrase', (('object_verb',), ('object_verb',
 __name_grammar.add_rule('phrase_verb_phrase', (('phrase_verb',), ('phrase_verb', 'preposition', 'noun_phrase')))
 
 full_name_generator = FullNameGenerator(__name_grammar)
+
+
+# FANTASY NAME GENERATOR
+
+__fantasy_grammar = ContextFreeGrammar()
+
+__fantasy_grammar.add_rule('start', (('prefix', 'suffix'), ('prefix', 'interfix', 'suffix')), (.5, .5))
+
+fantasy_name_generator = FullNameGenerator(__name_grammar)
