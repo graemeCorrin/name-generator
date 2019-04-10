@@ -4,9 +4,15 @@ from sqlalchemy.sql.expression import func
 from namegenserver.model.givenname import GivenName
 from namegenserver.model.surname import SurName
 from namegenserver.generator.generator import Generator
+from namegenserver.generator.fantasy_name_generator import FantasyNameGenerator
+from namegenserver.util.grammar import ContextFreeGrammar
 
 
 class FullNameGenerator(Generator):
+
+    def __init__(self, grammar: ContextFreeGrammar, fantasy_name_generator: FantasyNameGenerator):
+        super().__init__(grammar)
+        self.__fantasy_name_generator = fantasy_name_generator
 
     def _eval_terminal(self, terminal: str) -> str:
         """
@@ -79,9 +85,11 @@ class FullNameGenerator(Generator):
         surname = SurName.query.order_by(func.random()).first()
         return surname.name
 
-    @staticmethod
-    def __get_location_phrase():
-        return random.choice(['the Pit', 'the Void', 'the airport', 'Walmart', 'under the table'])
+    def __get_location_phrase(self):
+        if random.random() > 0.5:
+            return random.choice(['the Pit', 'the Void', 'the airport', 'Walmart', 'under the table'])
+        else:
+            return self.__fantasy_name_generator.generate()
 
     @staticmethod
     def __get_adjective():
