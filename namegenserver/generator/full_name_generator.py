@@ -5,14 +5,22 @@ from namegenserver.model.givenname import GivenName
 from namegenserver.model.surname import SurName
 from namegenserver.generator.generator import Generator
 from namegenserver.generator.fantasy_name_generator import FantasyNameGenerator
+from namegenserver.generator.fantasy_location_generator import FantasyLocationGenerator
 from namegenserver.util.grammar import ContextFreeGrammar
 
 
 class FullNameGenerator(Generator):
 
-    def __init__(self, grammar: ContextFreeGrammar, fantasy_name_generator: FantasyNameGenerator):
+    def __init__(self, grammar: ContextFreeGrammar,
+                 fantasy_name_generator: FantasyNameGenerator,
+                 fantasy_location_generator: FantasyLocationGenerator):
         super().__init__(grammar)
         self.__fantasy_name_generator = fantasy_name_generator
+        self.__fantasy_location_generator = fantasy_location_generator
+
+    def generate(self, seed: str = ''):
+        result = self._evaluate(seed)
+        return ' '.join(result)
 
     def _eval_terminal(self, terminal: str) -> str:
         """
@@ -75,21 +83,23 @@ class FullNameGenerator(Generator):
     def __get_initial():
         return random.choice(string.ascii_uppercase) + '.'
 
-    @staticmethod
-    def __get_given_name():
-        given_name = GivenName.query.order_by(func.random()).first()
-        return given_name.name
+    def __get_given_name(self):
+        if random.random() > 0.5:
+            return GivenName.query.order_by(func.random()).first().name
+        else:
+            return self.__fantasy_name_generator.generate()
 
-    @staticmethod
-    def __get_surname():
-        surname = SurName.query.order_by(func.random()).first()
-        return surname.name
+    def __get_surname(self):
+        if random.random() > 0.5:
+            return SurName.query.order_by(func.random()).first().name
+        else:
+            return self.__fantasy_name_generator.generate()
 
     def __get_location_phrase(self):
         if random.random() > 0.5:
             return random.choice(['the Pit', 'the Void', 'the airport', 'Walmart', 'under the table'])
         else:
-            return self.__fantasy_name_generator.generate()
+            return self.__fantasy_location_generator.generate()
 
     @staticmethod
     def __get_adjective():

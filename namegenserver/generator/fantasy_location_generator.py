@@ -2,7 +2,7 @@ import random
 from namegenserver.generator.generator import Generator
 
 
-class FantasyNameGenerator(Generator):
+class FantasyLocationGenerator(Generator):
 
     def generate(self, seed: str = ''):
         result = self._evaluate(seed)
@@ -30,12 +30,12 @@ class FantasyNameGenerator(Generator):
 
     @staticmethod
     def __get_prefix():
-        return random.choice(['nas', 'ca', 'zon', 'sri', 'hel', 'viz'])
+        return random.choice(['aber', 'fin', 'inver', 'wes', 'tre', 'nan'])
 
     @staticmethod
     def __get_morpheme():
-        return random.choice(['gou', 'tin', 'ter', 'brem', 'phef', 'us', 'tex', 'joz'])
+        return random.choice(['keld', 'mere', 'le', 'tarn', 'fos', 'ey', 'usk', 'ar'])
 
     @staticmethod
     def __get_suffix():
-        return random.choice(['er', 'en', 'ius', 'ous', 'us'])
+        return random.choice(['cester', 'ford', 'mouth', 'stead', 'ton', 'gard'])

@@ -10,7 +10,17 @@ class Generator(object):
     def __init__(self, grammar: ContextFreeGrammar):
         self.__grammar = grammar
 
+    @abstractmethod
     def generate(self, seed: str = '') -> str:
+        """
+        Generate the final result after any required post processing
+
+        :param seed: seed for random function
+        :return: result
+        """
+        pass
+
+    def _evaluate(self, seed: str = '') -> list:
         """
         Evaluate grammar. Seed random with given seed.
         If no seed is provided, the default seed for the random module is used
@@ -30,7 +40,7 @@ class Generator(object):
         for terminal in result:
             name.append(self._eval_terminal(terminal))
 
-        return ' '.join(name)
+        return name
 
     @abstractmethod
     def _eval_terminal(self, terminal: str) -> str:
