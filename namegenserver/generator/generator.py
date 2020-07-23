@@ -8,7 +8,7 @@ class Generator(object):
     __metaclass__ = ABCMeta
 
     def __init__(self, grammar: ContextFreeGrammar):
-        self.__grammar = grammar
+        self._grammar = grammar
 
     @abstractmethod
     def generate(self, seed: str = '') -> str:
@@ -34,7 +34,7 @@ class Generator(object):
         else:
             random.seed()
 
-        result = self.__grammar.evaluate()
+        result = self._grammar.evaluate()
         name = []
 
         for terminal in result:

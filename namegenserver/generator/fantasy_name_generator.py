@@ -8,6 +8,22 @@ class FantasyNameGenerator(Generator):
         result = self._evaluate(seed)
         return ''.join(result).capitalize()
 
+    def _evaluate(self, seed: str = '') -> list:
+        """
+        Evaluate grammar. Ignore the seed.
+
+        :param seed: seed for random function
+        :return: result
+        """
+
+        result = self._grammar.evaluate()
+        name = []
+
+        for terminal in result:
+            name.append(self._eval_terminal(terminal))
+
+        return name
+
     def _eval_terminal(self, terminal: str) -> str:
         """
         Get value for given terminal in the Grammar. If terminal does not correspond to a database table, literal value
