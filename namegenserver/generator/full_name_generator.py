@@ -3,6 +3,7 @@ import string
 from sqlalchemy.sql.expression import func
 from namegenserver.model.givenname import GivenName
 from namegenserver.model.surname import SurName
+from namegenserver.model.pronoun import Pronoun
 from namegenserver.generator.generator import Generator
 from namegenserver.generator.fantasy_name_generator import FantasyNameGenerator
 from namegenserver.generator.fantasy_location_generator import FantasyLocationGenerator
@@ -57,7 +58,7 @@ class FullNameGenerator(Generator):
 
     @staticmethod
     def __get_pronoun():
-        return random.choice(['He', 'She', 'The One', 'They'])
+        return Pronoun.query.order_by(func.random()).first().value
 
     @staticmethod
     def __get_simple_title():
