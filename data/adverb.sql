@@ -1,5 +1,5 @@
-INSERT INTO adverb (value) VALUES ('very');
-INSERT INTO adverb (value) VALUES ('really');
-INSERT INTO adverb (value) VALUES ('definitely');
-INSERT INTO adverb (value) VALUES ('extremely');
-INSERT INTO adverb (value) VALUES ('certainly');
+INSERT INTO adverb (value) VALUES ('Very');
+INSERT INTO adverb (value) VALUES ('Really');
+INSERT INTO adverb (value) VALUES ('Definitely');
+INSERT INTO adverb (value) VALUES ('Extremely');
+INSERT INTO adverb (value) VALUES ('Certainly');
