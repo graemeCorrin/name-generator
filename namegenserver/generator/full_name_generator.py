@@ -126,7 +126,7 @@ class FullNameGenerator(Generator):
 
     def __get_pronoun(self):
         if len(self.__pronoun_list) == 0:
-            self.__pronoun_list = NameNickname.query.order_by(Pronoun.id).all()
+            self.__pronoun_list = Pronoun.query.order_by(Pronoun.id).all()
         return random.choice(self.__pronoun_list).value
 
     def __get_title_action(self):
