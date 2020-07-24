@@ -57,7 +57,7 @@ __name_grammar.add_rule('of_who_from', (('of_modifier',),
 __name_grammar.add_rule('of_modifier', (('of', 'noun_place_phrase'),
                                         ('of', 'noun_thing_phrase')))
 
-__name_grammar.add_rule('who_modifier', (('who', 'verb_phrase'),))
+__name_grammar.add_rule('who_modifier', (('who', 'adverb_verb_phrase'),))
 
 __name_grammar.add_rule('from_modifier', (('from', 'noun_place_phrase'),))
 
@@ -70,11 +70,11 @@ __name_grammar.add_rule('noun_place_phrase', (('noun_place',),
 __name_grammar.add_rule('adjective_phrase', (('adjective',),
                                              ('adverb', 'adjective_phrase')), (4, 1))
 
-__name_grammar.add_rule('verb_phrase', (('verb',),
-                                        ('adverb', 'verb_phrase')), (4, 1))
+__name_grammar.add_rule('adverb_verb_phrase', (('verb_phrase',),
+                                               ('adverb', 'adverb_verb_phrase')), (4, 1))
 
-__name_grammar.add_rule('verb', (('verb_transitive_phrase',),
-                                 ('verb_intransitive_phrase',)))
+__name_grammar.add_rule('verb_phrase', (('verb_transitive_phrase',),
+                                        ('verb_intransitive_phrase',)))
 
 __name_grammar.add_rule('verb_transitive_phrase', (('verb_transitive',),
                                                    ('verb_transitive', 'noun_thing_phrase')))
