@@ -147,12 +147,12 @@ class FullNameGenerator(Generator):
     def __get_verb_intransitive(self):
         if len(self.__verb_intransitive_list) == 0:
             self.__verb_intransitive_list = VerbIntransitive.query.order_by(VerbIntransitive.id).all()
-        return '"' + random.choice(self.__verb_intransitive_list).value + '"'
+        return random.choice(self.__verb_intransitive_list).value
 
     def __get_verb_transitive(self):
         if len(self.__verb_transitive_list) == 0:
             self.__verb_transitive_list = VerbTransitive.query.order_by(VerbTransitive.id).all()
-        return '"' + random.choice(self.__verb_transitive_list).value + '"'
+        return random.choice(self.__verb_transitive_list).value
 
     @staticmethod
     def __get_initial():
