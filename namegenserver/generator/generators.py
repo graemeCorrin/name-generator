@@ -7,14 +7,14 @@ from namegenserver.generator.fantasy_location_generator import FantasyLocationGe
 # FANTASY NAME GENERATOR
 
 __fantasy_name_grammar = ContextFreeGrammar()
-__fantasy_name_grammar.add_rule('start', (('prefix', 'suffix'), ('prefix', 'morpheme', 'suffix')), (.5, .5))
+__fantasy_name_grammar.add_rule('start', (('prefix', 'suffix'), ('prefix', 'morpheme', 'suffix')))
 __fantasy_name_generator = FantasyNameGenerator(__fantasy_name_grammar)
 
 
 # FANTASY NAME GENERATOR
 
 __fantasy_location_grammar = ContextFreeGrammar()
-__fantasy_location_grammar.add_rule('start', (('prefix', 'suffix'), ('prefix', 'morpheme', 'suffix')), (.5, .5))
+__fantasy_location_grammar.add_rule('start', (('prefix', 'suffix'), ('prefix', 'morpheme', 'suffix')))
 __fantasy_location_generator = FantasyLocationGenerator(__fantasy_location_grammar)
 
 
@@ -22,26 +22,64 @@ __fantasy_location_generator = FantasyLocationGenerator(__fantasy_location_gramm
 
 __name_grammar = ContextFreeGrammar()
 
-__name_grammar.add_rule('start', (('proper_noun', ',', 'modifier'), ('pronoun', ',', 'who_modifier')), (.99, .01))
+__name_grammar.add_rule('start', (('proper_noun', ',', 'modifier'),
+                                  ('pronoun', 'who_modifier')), (99, 1))
 
-__name_grammar.add_rule('proper_noun', (('full_name',), ('simple_title', 'full_name'), ('standalone_title', 'full_name',), ('standalone_title',)))
-__name_grammar.add_rule('standalone_title', (('normal_title',), ('professional_title',), ('ruler_title',)))
-__name_grammar.add_rule('full_name', (('given',), ('sur',), ('nickname',), ('given', 'nickname'), ('given', 'sur'), ('given', 'nickname', 'sur'), ('nickname', 'sur')))
-__name_grammar.add_rule('given', (('initial',), ('given_name',)))
-__name_grammar.add_rule('sur', (('initial',), ('surname',)))
+__name_grammar.add_rule('proper_noun', (('full_name',),
+                                        ('title_simple', 'full_name'),
+                                        ('title_standalone', 'full_name',)))
 
-__name_grammar.add_rule('modifier', (('article_modifier',), ('of_modifier',), ('who_modifier',), ('from_modifier',)))
-__name_grammar.add_rule('article_modifier', (('the', 'adjective_phrase'), ('article', 'noun_phrase')))
-__name_grammar.add_rule('of_modifier', (('of', 'location_phrase'), ('of', 'noun_phrase')))
+__name_grammar.add_rule('full_name', (('name_first_phrase',),
+                                      ('name_last_phrase',),
+                                      ('name_nickname',),
+                                      ('name_first_phrase', 'name_nickname'),
+                                      ('name_first_phrase', 'name_last_phrase'),
+                                      ('name_first_phrase', 'name_nickname', 'name_last_phrase'),
+                                      ('name_nickname', 'name_last_phrase')))
+
+__name_grammar.add_rule('name_first_phrase', (('initial',),
+                                              ('name_first',),
+                                              ('name_fantasy',)), (1, 5, 5))
+
+__name_grammar.add_rule('name_last_phrase', (('initial',),
+                                             ('name_last',),
+                                             ('name_fantasy',)), (1, 5, 5))
+
+__name_grammar.add_rule('modifier', (('of_who_from',),
+                                     ('the', 'title_standalone'),
+                                     ('the', 'title_standalone', 'of_who_from'),
+                                     ('title_action', 'of', 'noun_thing_phrase')))
+
+__name_grammar.add_rule('of_who_from', (('of_modifier',),
+                                        ('who_modifier',),
+                                        ('from_modifier',)))
+
+__name_grammar.add_rule('of_modifier', (('of', 'noun_place_phrase'),
+                                        ('of', 'noun_thing_phrase')))
+
 __name_grammar.add_rule('who_modifier', (('who', 'verb_phrase'),))
-__name_grammar.add_rule('from_modifier', (('from', 'location_phrase'),))
 
-__name_grammar.add_rule('article', (('a',), ('the',)))
-__name_grammar.add_rule('adjective_phrase', (('adjective',), ('adverb', 'adjective_phrase')), (.8, .2))
-__name_grammar.add_rule('noun_phrase', (('article', 'noun'), ('noun',), ('article', 'adjective_phrase', 'noun')))
-__name_grammar.add_rule('verb_phrase', (('verb',), ('adverb', 'verb_phrase')), (.8, .2))
-__name_grammar.add_rule('verb', (('object_verb_phrase',), ('phrase_verb_phrase',)))
-__name_grammar.add_rule('object_verb_phrase', (('object_verb',), ('object_verb', 'noun_phrase')))
-__name_grammar.add_rule('phrase_verb_phrase', (('phrase_verb',), ('phrase_verb', 'preposition', 'noun_phrase')))
+__name_grammar.add_rule('from_modifier', (('from', 'noun_place_phrase'),))
+
+__name_grammar.add_rule('noun_thing_phrase', (('noun_thing',),
+                                              ('adjective_phrase', 'noun_thing')))
+
+__name_grammar.add_rule('noun_place_phrase', (('noun_place',),
+                                              ('noun_place_fantasy',)))
+
+__name_grammar.add_rule('adjective_phrase', (('adjective',),
+                                             ('adverb', 'adjective_phrase')), (4, 1))
+
+__name_grammar.add_rule('verb_phrase', (('verb',),
+                                        ('adverb', 'verb_phrase')), (4, 1))
+
+__name_grammar.add_rule('verb', (('verb_transitive_phrase',),
+                                 ('verb_intransitive_phrase',)))
+
+__name_grammar.add_rule('verb_transitive_phrase', (('verb_transitive',),
+                                                   ('verb_transitive', 'noun_thing_phrase')))
+
+__name_grammar.add_rule('verb_intransitive_phrase', (('verb_intransitive',),
+                                                     ('verb_intransitive', 'preposition', 'noun_thing_phrase')))
 
 full_name_generator = FullNameGenerator(__name_grammar, __fantasy_name_generator, __fantasy_location_generator)

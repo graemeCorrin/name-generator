@@ -1,9 +1,20 @@
 import random
 import string
 from sqlalchemy.sql.expression import func
-from namegenserver.model.givenname import GivenName
-from namegenserver.model.surname import SurName
+from namegenserver.model.adjective import Adjective
+from namegenserver.model.adverb import Adverb
+from namegenserver.model.name_first import NameFirst
+from namegenserver.model.name_last import NameLast
+from namegenserver.model.name_nickname import NameNickname
+from namegenserver.model.noun_place import NounPlace
+from namegenserver.model.noun_thing import NounThing
+from namegenserver.model.preposition import Preposition
 from namegenserver.model.pronoun import Pronoun
+from namegenserver.model.title_action import TitleAction
+from namegenserver.model.title_simple import TitleSimple
+from namegenserver.model.title_standalone import TitleStandalone
+from namegenserver.model.verb_transitive import VerbTransitive
+from namegenserver.model.verb_intransitive import VerbIntransitive
 from namegenserver.generator.generator import Generator
 from namegenserver.generator.fantasy_name_generator import FantasyNameGenerator
 from namegenserver.generator.fantasy_location_generator import FantasyLocationGenerator
@@ -21,7 +32,9 @@ class FullNameGenerator(Generator):
 
     def generate(self, seed: str = ''):
         result = self._evaluate(seed)
-        return ' '.join(result)
+        name = ' '.join(result)
+        name_fixed = name.replace('" , ', '," ').replace(' , ', ', ')
+        return name_fixed
 
     def _eval_terminal(self, terminal: str) -> str:
         """
@@ -33,22 +46,23 @@ class FullNameGenerator(Generator):
         """
 
         options = {
-            'pronoun': self.__get_pronoun,
-            'simple_title': self.__get_simple_title,
-            'normal_title': self.__get_normal_title,
-            'professional_title': self.__get_professional_title,
-            'ruler_title': self.__get_ruler_title,
-            'nickname': self.__get_nickname,
-            'initial': self.__get_initial,
-            'given_name': self.__get_given_name,
-            'surname': self.__get_surname,
-            'location_phrase': self.__get_location_phrase,
             'adjective': self.__get_adjective,
             'adverb': self.__get_adverb,
-            'noun': self.__get_noun,
-            'object_verb': self.__get_object_verb,
-            'phrase_verb': self.__get_phrase_verb,
-            'preposition': self.__get_preposition
+            'name_first': self.__get_name_first,
+            'name_last': self.__get_name_last,
+            'name_nickname': self.__get_name_nickname,
+            'noun_place': self.__get_noun_place,
+            'noun_thing': self.__get_noun_thing,
+            'preposition': self.__get_preposition,
+            'pronoun': self.__get_pronoun,
+            'title_action': self.__get_title_action,
+            'title_simple': self.__get_title_simple,
+            'title_standalone': self.__get_title_standalone,
+            'verb_intransitive': self.__get_verb_intransitive,
+            'verb_transitive': self.__get_verb_transitive,
+            'initial': self.__get_initial,
+            'name_fantasy': self.__get_name_fantasy,
+            'noun_place_fantasy': self.__get_noun_place_fantasy
         }
 
         if terminal not in options:
@@ -57,71 +71,67 @@ class FullNameGenerator(Generator):
             return options[terminal]()
 
     @staticmethod
+    def __get_adjective():
+        return Adjective.query.order_by(func.random()).first().value
+
+    @staticmethod
+    def __get_adverb():
+        return Adverb.query.order_by(func.random()).first().value
+
+    @staticmethod
+    def __get_name_first():
+        return NameFirst.query.order_by(func.random()).first().value
+
+    @staticmethod
+    def __get_name_last():
+        return NameLast.query.order_by(func.random()).first().value
+
+    @staticmethod
+    def __get_name_nickname():
+        return '"' + NameNickname.query.order_by(func.random()).first().value + '"'
+
+    @staticmethod
+    def __get_noun_place():
+        return NounPlace.query.order_by(func.random()).first().value
+
+    @staticmethod
+    def __get_noun_thing():
+        return NounThing.query.order_by(func.random()).first().value
+
+    @staticmethod
+    def __get_preposition():
+        return Preposition.query.order_by(func.random()).first().value
+
+    @staticmethod
     def __get_pronoun():
         return Pronoun.query.order_by(func.random()).first().value
 
     @staticmethod
-    def __get_simple_title():
-        return random.choice(['Mr', 'Mrs', 'Ms', 'Miss', 'Dr', 'Sir'])
+    def __get_title_action():
+        return TitleAction.query.order_by(func.random()).first().value
 
     @staticmethod
-    def __get_normal_title():
-        return random.choice(['Madam', 'Master', 'Father', 'Mother'])
+    def __get_title_simple():
+        return TitleSimple.query.order_by(func.random()).first().value
 
     @staticmethod
-    def __get_professional_title():
-        return random.choice(['Professor', 'Chancellor', 'Principal', 'President', 'Warden'])
+    def __get_title_standalone():
+        return TitleStandalone.query.order_by(func.random()).first().value
 
     @staticmethod
-    def __get_ruler_title():
-        return random.choice(['King', 'Queen', 'Emperor', 'Duchess', 'Earl'])
+    def __get_verb_intransitive():
+        return VerbIntransitive.query.order_by(func.random()).first().value
 
     @staticmethod
-    def __get_nickname():
-        return '"' + random.choice(['Smalls', 'The Fish', 'Potato', 'Lover of Soup', 'Goose']) + '"'
+    def __get_verb_transitive():
+        return VerbTransitive.query.order_by(func.random()).first().value
 
     @staticmethod
     def __get_initial():
         return random.choice(string.ascii_uppercase) + '.'
 
-    def __get_given_name(self):
-        if random.random() > 0.5:
-            return GivenName.query.order_by(func.random()).first().name
-        else:
-            return self.__fantasy_name_generator.generate()
+    def __get_name_fantasy(self):
+        return self.__fantasy_name_generator.generate()
 
-    def __get_surname(self):
-        if random.random() > 0.5:
-            return SurName.query.order_by(func.random()).first().name
-        else:
-            return self.__fantasy_name_generator.generate()
-
-    def __get_location_phrase(self):
-        if random.random() > 0.5:
-            return random.choice(['the Pit', 'the Void', 'the airport', 'Walmart', 'under the table'])
-        else:
-            return self.__fantasy_location_generator.generate()
-
-    @staticmethod
-    def __get_adjective():
-        return random.choice(['green', 'fragrant', 'tall', 'large', 'not nice'])
-
-    @staticmethod
-    def __get_adverb():
-        return random.choice(['very', 'really', 'definitely', 'extremely', 'certainly'])
-
-    @staticmethod
-    def __get_noun():
-        return random.choice(['soup', 'hot dogs', 'Christmas tree', 'ball', 'box'])
-
-    @staticmethod
-    def __get_object_verb():
-        return random.choice(['kills', 'murders', 'licks', 'eats', 'slaps', 'sniffs', 'analyzes', 'avoids'])
-
-    @staticmethod
-    def __get_phrase_verb():
-        return random.choice(['runs'])
-
-    @staticmethod
-    def __get_preposition():
-        return random.choice(['to', 'at'])
+    def __get_noun_place_fantasy(self):
+        return self.__fantasy_location_generator.generate()

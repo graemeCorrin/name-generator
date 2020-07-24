@@ -2,14 +2,14 @@ from namegenserver.app import db
 from sqlalchemy import BOOLEAN, String
 
 
-class SurName(db.Model):
-    __tablename__ = 'surname'
+class NameLast(db.Model):
+    __tablename__ = 'name_last'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(String())
+    value = db.Column(String())
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, value):
+        self.value = value
 
     def __repr__(self):
         return '<id {}>'.format(self.id)

@@ -1,0 +1,17 @@
+INSERT INTO verb_intransitive (value) VALUES ('runs');
+INSERT INTO verb_intransitive (value) VALUES ('appears');
+INSERT INTO verb_intransitive (value) VALUES ('dies');
+INSERT INTO verb_intransitive (value) VALUES ('lies');
+INSERT INTO verb_intransitive (value) VALUES ('sneezes');
+INSERT INTO verb_intransitive (value) VALUES ('arrives');
+INSERT INTO verb_intransitive (value) VALUES ('disappears');
+INSERT INTO verb_intransitive (value) VALUES ('lives');
+INSERT INTO verb_intransitive (value) VALUES ('snows');
+INSERT INTO verb_intransitive (value) VALUES ('comes');
+INSERT INTO verb_intransitive (value) VALUES ('falls');
+INSERT INTO verb_intransitive (value) VALUES ('rains');
+INSERT INTO verb_intransitive (value) VALUES ('waits');
+INSERT INTO verb_intransitive (value) VALUES ('coughs');
+INSERT INTO verb_intransitive (value) VALUES ('happens');
+INSERT INTO verb_intransitive (value) VALUES ('rises');
+INSERT INTO verb_intransitive (value) VALUES ('works');

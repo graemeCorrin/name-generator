@@ -2,16 +2,16 @@ from namegenserver.app import db
 from sqlalchemy import BOOLEAN, String
 
 
-class GivenName(db.Model):
-    __tablename__ = 'given_name'
+class NameFirst(db.Model):
+    __tablename__ = 'name_first'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(String())
+    value = db.Column(String())
     male = db.Column(BOOLEAN)
     female = db.Column(BOOLEAN)
 
-    def __init__(self, name, male, female):
-        self.name = name
+    def __init__(self, value, male, female):
+        self.value = value
         self.male = male
         self.female = female
 
