@@ -1,6 +1,5 @@
 import random
 import string
-from sqlalchemy.sql.expression import func
 from namegenserver.model.adjective import Adjective
 from namegenserver.model.adverb import Adverb
 from namegenserver.model.name_first import NameFirst
@@ -29,6 +28,21 @@ class FullNameGenerator(Generator):
         super().__init__(grammar)
         self.__fantasy_name_generator = fantasy_name_generator
         self.__fantasy_location_generator = fantasy_location_generator
+
+        self.__adjective_list = []
+        self.__adverb_list = []
+        self.__name_first_list = []
+        self.__name_last_list = []
+        self.__name_nickname_list = []
+        self.__noun_place_list = []
+        self.__noun_thing_list = []
+        self.__preposition_list = []
+        self.__pronoun_list = []
+        self.__title_action_list = []
+        self.__title_simple_list = []
+        self.__title_standalone_list = []
+        self.__verb_intransitive_list = []
+        self.__verb_transitive_list = []
 
     def generate(self, seed: str = ''):
         result = self._evaluate(seed)
@@ -70,61 +84,75 @@ class FullNameGenerator(Generator):
         else:
             return options[terminal]()
 
-    @staticmethod
-    def __get_adjective():
-        return Adjective.query.order_by(func.random()).first().value
+    def __get_adjective(self):
+        if len(self.__adjective_list) == 0:
+            self.__adjective_list = Adjective.query.order_by(Adjective.id).all()
+        return random.choice(self.__adjective_list).value
 
-    @staticmethod
-    def __get_adverb():
-        return Adverb.query.order_by(func.random()).first().value
+    def __get_adverb(self):
+        if len(self.__adverb_list) == 0:
+            self.__adverb_list = Adverb.query.order_by(Adverb.id).all()
+        return random.choice(self.__adverb_list).value
 
-    @staticmethod
-    def __get_name_first():
-        return NameFirst.query.order_by(func.random()).first().value
+    def __get_name_first(self):
+        if len(self.__name_first_list) == 0:
+            self.__name_first_list = NameFirst.query.order_by(NameFirst.id).all()
+        return random.choice(self.__name_first_list).value
 
-    @staticmethod
-    def __get_name_last():
-        return NameLast.query.order_by(func.random()).first().value
+    def __get_name_last(self):
+        if len(self.__name_last_list) == 0:
+            self.__name_last_list = NameLast.query.order_by(NameLast.id).all()
+        return random.choice(self.__name_last_list).value
 
-    @staticmethod
-    def __get_name_nickname():
-        return '"' + NameNickname.query.order_by(func.random()).first().value + '"'
+    def __get_name_nickname(self):
+        if len(self.__name_nickname_list) == 0:
+            self.__name_nickname_list = NameNickname.query.order_by(NameNickname.id).all()
+        return '"' + random.choice(self.__name_nickname_list).value + '"'
 
-    @staticmethod
-    def __get_noun_place():
-        return NounPlace.query.order_by(func.random()).first().value
+    def __get_noun_place(self):
+        if len(self.__noun_place_list) == 0:
+            self.__noun_place_list = NounPlace.query.order_by(NounPlace.id).all()
+        return random.choice(self.__noun_place_list).value
 
-    @staticmethod
-    def __get_noun_thing():
-        return NounThing.query.order_by(func.random()).first().value
+    def __get_noun_thing(self):
+        if len(self.__noun_thing_list) == 0:
+            self.__noun_thing_list = NounThing.query.order_by(NounThing.id).all()
+        return random.choice(self.__noun_thing_list).value
 
-    @staticmethod
-    def __get_preposition():
-        return Preposition.query.order_by(func.random()).first().value
+    def __get_preposition(self):
+        if len(self.__preposition_list) == 0:
+            self.__preposition_list = Preposition.query.order_by(Preposition.id).all()
+        return random.choice(self.__preposition_list).value
 
-    @staticmethod
-    def __get_pronoun():
-        return Pronoun.query.order_by(func.random()).first().value
+    def __get_pronoun(self):
+        if len(self.__pronoun_list) == 0:
+            self.__pronoun_list = NameNickname.query.order_by(Pronoun.id).all()
+        return random.choice(self.__pronoun_list).value
 
-    @staticmethod
-    def __get_title_action():
-        return TitleAction.query.order_by(func.random()).first().value
+    def __get_title_action(self):
+        if len(self.__title_action_list) == 0:
+            self.__title_action_list = TitleAction.query.order_by(TitleAction.id).all()
+        return random.choice(self.__title_action_list).value
 
-    @staticmethod
-    def __get_title_simple():
-        return TitleSimple.query.order_by(func.random()).first().value
+    def __get_title_simple(self):
+        if len(self.__title_simple_list) == 0:
+            self.__title_simple_list = TitleSimple.query.order_by(TitleSimple.id).all()
+        return random.choice(self.__title_simple_list).value
 
-    @staticmethod
-    def __get_title_standalone():
-        return TitleStandalone.query.order_by(func.random()).first().value
+    def __get_title_standalone(self):
+        if len(self.__title_standalone_list) == 0:
+            self.__title_standalone_list = TitleStandalone.query.order_by(TitleStandalone.id).all()
+        return random.choice(self.__title_standalone_list).value
 
-    @staticmethod
-    def __get_verb_intransitive():
-        return VerbIntransitive.query.order_by(func.random()).first().value
+    def __get_verb_intransitive(self):
+        if len(self.__verb_intransitive_list) == 0:
+            self.__verb_intransitive_list = VerbIntransitive.query.order_by(VerbIntransitive.id).all()
+        return '"' + random.choice(self.__verb_intransitive_list).value + '"'
 
-    @staticmethod
-    def __get_verb_transitive():
-        return VerbTransitive.query.order_by(func.random()).first().value
+    def __get_verb_transitive(self):
+        if len(self.__verb_transitive_list) == 0:
+            self.__verb_transitive_list = VerbTransitive.query.order_by(VerbTransitive.id).all()
+        return '"' + random.choice(self.__verb_transitive_list).value + '"'
 
     @staticmethod
     def __get_initial():
