@@ -1,9 +1,10 @@
 
+
 # Name Generator
 
 This project is inspired by the procedurally generated deck names in the Unique Deck Game [KeyForge](https://www.keyforgegame.com/).
 
-It uses a [context-free grammar](https://en.wikipedia.org/wiki/Context-free_grammar) to define the rules that make up a valid name, then evaluates that grammar, making a weighted random choice at each decision point.
+It uses a [context-free grammar (CFG)](https://en.wikipedia.org/wiki/Context-free_grammar) to define the rules that make up a valid name, then evaluates that grammar, making a weighted random choice at each decision point.
 
 ## The Grammar
 Context-free grammars are described by a four-element tuple, G = (V, Σ, R, S), where
@@ -12,7 +13,7 @@ Context-free grammars are described by a four-element tuple, G = (V, Σ, R, S), 
 -  R is a set of production rules where each production rule maps a variable to a string s∈(V∪Σ)∗;
 -  S a start symbol (which is in V)
 
-### V
+### V (Variables)
 ||||
 |--|--|--|
 start|proper_noun|full_name
@@ -22,9 +23,7 @@ from_modifier|noun_thing_phrase|noun_place_phrase
 adjective_phrase|adverb_verb_phrase|verb_phrase
 verb_transitive|verb_intransitive|
 
-
-
-### Σ
+### Σ (Terminals)
 ||||
 |--|--|--|
 adjective|adverb|name_first
@@ -34,7 +33,13 @@ title_action|title_simple|title_standalone
 verb_intransitive|verb_transitive|initial
 name_fantasy|noun_place_fantasy|
 
-### R
+Each terminal symbol resolves to a random string:
+ - initial takes a random letter
+ - name_fantasy and noun_place_fantasy use another CFG to create a made up name from a set of syllables
+ - All remaining terminals take a random string from the relevant database table
+
+
+### R (Production Rules)
  - start → proper_noun + , + modifier
  - start → pronoun + who_modifier
 
@@ -96,7 +101,7 @@ name_fantasy|noun_place_fantasy|
  - verb_intransitive_phrase→ verb_intransitive + preposition + noun_thing_phrase
  
 
-### S
+### S (Start)
  - start
 
 ## Examples
@@ -108,6 +113,10 @@ Evaluation tree for
 Evaluation tree for
 **Miss Nasbremus "Sweetie Pie," Savior of Cat Calendars**
 ![Context Free Grammar Example 1](https://raw.githubusercontent.com/graemeCorrin/name-generator/master/img/cfg_example_2.png)
+## Random Seed
+Before generating a name, the random module is seeded.  If a seed is passed in from the client, it will be used to seed the random module.  Therefore, every time you use that seed, you will get the same name (unless code or data has changes, of course).
+
+You can use your own name as a seed, and find out *your* crazy name.
 
 ## Setup
 
